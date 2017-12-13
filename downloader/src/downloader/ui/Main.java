@@ -1,39 +1,54 @@
 package downloader.ui;
 
-import java.nio.file.Paths;
-import java.util.ArrayList;
 
+import javafx.scene.control.TextField;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
+import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 
-//Créez un classe downloader.ui.Main qui ouvre un fenêtre principale, 
-//lance en tâche de fond (dans un Thread dédié) le téléchargement des URL passées sur la ligne de commande. 
-//Chaque téléchargement est représenté par une barre de progression qui donne un feedback à sa progression. 
-//Pour cela, réalisez un ChangeListener qui s'abonne à downloader.fc.Downloader e
-//t met à jour la valeur de la barre de progression lorsque la propriété progress change. 
-//Pour gérer la liste des téléchargement, vous pouvez utiliser le conteneur VBox à l'intérieur d'un ScrollPane.
+//sujet tp: http://iihm.imag.fr/blanch/RICM4/IHM/tps/3-notification/
 
-// progressbar.progressProperty().bind(downloader.progressProperty());
-// ou
-// progressProperty.addListener((obs, o, n) -> { 
-// 	Platform.numLater(()->{
-//	progressbar.setProgress(n);
-// });
+// TODO 
+// - Ameliorer interface pour que la barre de dl fasse toute le fenetre
+// - Ajouter un eventlistener sur buttonAdd pour creer une barre de dl:
+//		- A la fois dans l'interface (champ Arraylist de ProgressBar dans Main?)
+//		- Et aussi dans Download (modifier les champs urls et drls)
+//		- lancer le thread => le telechargement
+// honnetement je sais pas trop comment faire
 
 public class Main extends Application {
 	
 	public void start(Stage stage) {
 		BorderPane root = new BorderPane();
+		HBox hbox = new HBox();
+		hbox.setPadding(new Insets(15, 12, 15, 12));
+	    hbox.setSpacing(1);
+	    hbox.setStyle("-fx-background-color: #336699;");
+
+	    Button buttonAdd = new Button("Add");
+	    buttonAdd.setPrefSize(100, 20);
+
+		TextField text = new TextField();
+
+	    hbox.getChildren().addAll(text, buttonAdd);
+	    
+		
 		ProgressBar progressbar = new ProgressBar();
 		Download dl = new Download(getParameters());
 		
 		// bind download with physical display
-		progressbar.progressProperty().bind(dl.progressProperty());  
+		progressbar.progressProperty().bind(dl.progressProperty()); 
+		
 		root.setCenter(progressbar);
+		root.setBottom(hbox);
+		root.setRight(null);
+		root.setLeft(null);
 		
 		stage.setTitle("Downloader");
 		stage.setScene(new Scene(root));
@@ -43,6 +58,8 @@ public class Main extends Application {
 		new Thread(dl).start();
 			
 	}
+	
+	
 	public static void main(String[] args) {
 		launch(args);
 	}

@@ -31,6 +31,10 @@ class Download implements Runnable {
 	public ObservableValue<? extends Number> progressProperty() {
 		return dlrs.get(0).progressProperty();
 	}
+	
+	public ObservableValue<? extends Number> progressProperty(int n) {
+		return dlrs.get(n).progressProperty();
+	}
 
 	@Override
 	public void run() {
