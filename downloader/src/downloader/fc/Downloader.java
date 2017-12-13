@@ -55,7 +55,7 @@ public class Downloader implements Runnable {
 		return progress.getReadOnlyProperty();
 	}
 	
-	protected String download() throws InterruptedException {
+	public String download() throws InterruptedException {
 		byte buffer[] = new byte[CHUNK_SIZE];
 		
 		while(count >= 0) {
