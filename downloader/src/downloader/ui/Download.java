@@ -27,6 +27,12 @@ class Download implements Runnable {
 //			}
 //		}
 	}
+	
+	public Download(String str) {
+		// for debug
+		urls.add(str);
+		dlrs.add(new Downloader(str));
+	}
 
 	public ObservableValue<? extends Number> progressProperty() {
 		return dlrs.get(0).progressProperty();
